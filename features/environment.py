@@ -1,24 +1,26 @@
-import sys
-import time
 from loguru import logger
 
-from features.utils.driver_config import driver_setup
+from features.utils.driver_config import driver_setup, driver_cleanup
+from features.utils.log_config import start_logger
 
 
 def before_all(context):
-    logger.remove()
-    logger.add("features/logs/file.log", format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}")
-    logger.add(sys.stdout, format="<green>{time:HH:mm:ss.SSS}</green> <level>| {level} | {message}</level>", colorize="True")
+    # Initialize logger
+    start_logger(context)
     context.logger = logger
+
+    # Initialize Driver
     context.logger.info("Setting up the driver...")
-    driver_setup(context)
-    context.logger.info("Driver config ready!.")
+    try:
+        driver_setup(context)
+    except Exception as e:
+        context.logger.error(e)
+        raise SystemExit
 
 
 def before_feature(context, feature):
     context.driver.get(context.config.userdata.get('app_url'))
-    time.sleep(5)
 
 
 def after_feature(context, feature):
-    pass
+    driver_cleanup(context)
