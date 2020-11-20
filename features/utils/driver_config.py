@@ -32,6 +32,6 @@ def driver_cleanup(context):
     try:
         context.driver.quit()
         context.driver = None
-        context.logger.info("Closing browser...")
+        context.logger.debug("Closing browser...")
     except Exception as e:
         context.logger.error(e)

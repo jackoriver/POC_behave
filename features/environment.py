@@ -9,6 +9,8 @@ def before_all(context):
     start_logger(context)
     context.logger = logger
 
+
+def before_feature(context, feature):
     # Initialize Driver
     context.logger.info("Setting up the driver...")
     try:
@@ -16,9 +18,7 @@ def before_all(context):
     except Exception as e:
         context.logger.error(e)
         raise SystemExit
-
-
-def before_feature(context, feature):
+    # Navigate to the base page
     context.driver.get(context.config.userdata.get('app_url'))
 
 
