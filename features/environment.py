@@ -20,6 +20,7 @@ def before_feature(context, feature):
         raise SystemExit
     # Navigate to the base page
     context.driver.get(context.config.userdata.get('app_url'))
+    context.logger.info(f"Running feature: {feature.name}")
 
 
 def after_feature(context, feature):
