@@ -1,0 +1,8 @@
+behave==1.2.6
+loguru==0.5.3
+parse==1.18.0
+parse-type==0.5.2
+selenium==3.141.0
+six==1.15.0
+TestlinkApiClient==0.5.1
+urllib3==1.26.2
