@@ -133,3 +133,5 @@ dmypy.json
 *.log
 .idea
 .DS_Store
+screenshots/*.png
+screenshots/*.jpg
