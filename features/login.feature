@@ -1,6 +1,8 @@
-Feature: login/logout functionality
+Feature: Login
+  login/logout functionality
 
-  Scenario: Login successful
+  Scenario: TC-1
+  Login successful
     Given I type my username
     And I type my password
     When I click on login
