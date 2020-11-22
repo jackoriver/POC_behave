@@ -1,3 +1,4 @@
+from behave.model_core import Status
 from loguru import logger
 
 from features.utils.common_utils import connect_to_testlink, update_tc_result
@@ -36,6 +37,10 @@ def before_feature(context, feature):
 
 
 def after_scenario(context, scenario):
+    # Take screenshot if the TC failed
+    if scenario.status == Status.failed:
+        context.driver.save_screenshot(f"screenshots/screenshot-{scenario.name}.png")
+
     # updating Testlink result
     try:
         update_tc_result(context, scenario.name, scenario.status.name.lower())
