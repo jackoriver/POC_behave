@@ -16,11 +16,13 @@ def before_all(context):
     context.plan_name = context.config.userdata.get('plan_name')
     context.platform_name = context.config.userdata.get('platform_name')
     context.build_name = context.config.userdata.get('build_name')
-    try:
-        connect_to_testlink(context)
-        context.logger.success("Connection to Testlink successful!")
-    except Exception as e:
-        context.logger.debug(f"failed to connect to Testlink: {e}")
+
+    if context.config.userdata.get('testlink_enable') in ('true', 'TRUE', 'True'):
+        try:
+            connect_to_testlink(context)
+            context.logger.success("Connection to Testlink successful!")
+        except Exception as e:
+            context.logger.debug(f"failed to connect to Testlink: {e}")
 
 
 def before_feature(context, feature):
@@ -42,11 +44,12 @@ def after_scenario(context, scenario):
         context.driver.save_screenshot(f"screenshots/screenshot-{scenario.name}.png")
 
     # updating Testlink result
-    try:
-        update_tc_result(context, scenario.name, scenario.status.name.lower())
-        context.logger.debug(f"Result for {scenario.name} updated in Testlink.")
-    except Exception as e:
-        context.logger.debug(f"Failed to update TC in Testlink: {e}")
+    if context.config.userdata.get('testlink_enable') in ('true', 'TRUE', 'True'):
+        try:
+            update_tc_result(context, scenario.name, scenario.status.name.lower())
+            context.logger.debug(f"Result for {scenario.name} updated in Testlink.")
+        except Exception as e:
+            context.logger.debug(f"Failed to update TC in Testlink: {e}")
 
 
 def after_feature(context, feature):
